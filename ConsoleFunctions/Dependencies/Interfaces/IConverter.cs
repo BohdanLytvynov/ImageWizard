@@ -8,6 +8,6 @@ namespace ConsoleFunctions.Dependencies.Interfaces
 {
     public interface IConverter<Tout, Tin>
     {
-        Tout Convert(Tin input);
+        bool Convert(Tin input, out Tout output);
     }
 }

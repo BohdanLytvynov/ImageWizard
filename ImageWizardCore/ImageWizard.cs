@@ -1,7 +1,10 @@
-﻿using Aspose.PSD;
-using Aspose.PSD.ImageLoadOptions;
-using Aspose.PSD.ImageOptions;
-using Aspose.PSD.Sources;
+﻿
+using Aspose.Imaging;
+using Aspose.Imaging.FileFormats.Png;
+using Aspose.Imaging.ImageLoadOptions;
+using Aspose.Imaging.ImageOptions;
+using Aspose.Imaging.Sources;
+
 
 namespace ImageWizardCore
 {
@@ -58,31 +61,35 @@ namespace ImageWizardCore
             return File.Exists(path);
         }
 
-        public void Resizer(float imgWidth, float imgHeight, Image img)
+        public void Resizer(float imgWidth, float imgHeight, Aspose.Imaging.Image img)
         {
             img.Resize((int)imgWidth, (int)imgHeight);
         }
 
         public void CreateSpriteShit(float imgWidth, float imgHeight, int CanvWidth, int CanvHeight,
-            string[] imgpaths, bool resize = false)
+            bool resize = false)
         {
-            var options = new PsdOptions();
-
-            var source = CreatePsd(OutputName);
+            var options = new PngOptions() {ColorType = PngColorType.TruecolorWithAlpha };
+            
+            var source = CreatePNG(OutputName, false);
 
             options.Source = source;
 
-            Image canvas = Image.Create(options, CanvWidth, CanvHeight);
-
+            Image canvas = Image.Create(options, CanvWidth, CanvHeight + 50);
+            
+            canvas.BackgroundColor = Color.Transparent;
+            
             Graphics g = new Graphics(canvas);
 
-            int count = imgpaths.Length;
+            int count = pathToInputImages.Length;
 
-            float x = 0, y = 0;
+            float x = 0, y = 50;
 
             for (int i = 0; (i < count) && y<=CanvHeight; i++)
             {
-                var img = Image.Load(imgpaths[i]);
+                Image img = Image.Load(pathToInputImages[i], new LoadOptions() { });
+
+                img.BackgroundColor = Color.Transparent;
 
                 if (resize)
                 {
@@ -105,9 +112,9 @@ namespace ImageWizardCore
             canvas.Dispose();
         }
 
-        public FileCreateSource CreatePsd(string name)
+        public FileCreateSource CreatePNG(string name, bool temporal)
         {
-            return new FileCreateSource(m_pathToOutput + Path.DirectorySeparatorChar + name+".psd");
+            return new FileCreateSource(m_pathToOutput + Path.DirectorySeparatorChar + name + ".png", temporal);
         }
 
         

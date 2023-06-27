@@ -1,28 +1,22 @@
-﻿using ConsoleFunctions.Dependencies.Interfaces;
+﻿using System;
 using static ConsoleFunctions.Console_Functions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleFunctions.Dependencies.Interfaces;
 
 namespace ConsoleFunctions.Dependencies
 {
-    public class StringToFloatConverter : ConverterBase<float>, IConverter<float, string>
+    public class StringToByteConverter : ConverterBase<byte>, IConverter<byte, string>
     {
-        
-
-        #region Ctor
-
-        public StringToFloatConverter(Func<float,bool> addCondition = null) : base(addCondition)
-        {            
+        public StringToByteConverter(Func<byte, bool> addCondition = null) : base(addCondition)
+        {
         }
 
-        #endregion
-
-        public bool Convert(string input, out float output)
+        public bool Convert(string input, out byte output)
         {
-            var r =  float.TryParse(input, out output);
+            var r = byte.TryParse(input, out output);
 
             if (!r)
             {

@@ -17,20 +17,20 @@ namespace ConsoleFunctions
             Console.ResetColor();
         }
 
-        public static Tout ConsoleInput<Tout>(string msg, ConsoleColor color, IConverter<Tout, string> converter,
-            IValidator<Tout> validator)
+        public static Tout ConsoleInput<Tout>(string msg, ConsoleColor color, 
+            IConverter<Tout, string> converter)
         {
             Tout output;
+
+            string str = String.Empty;
 
             do
             {
                 PrintMessage(msg, color);
 
-                var str = Console.ReadLine();
-
-                output = converter.Convert(str);
-                
-            } while (!validator.Validate(output));
+                str = Console.ReadLine();
+                                
+            } while (!converter.Convert(str, out output));
 
             return output;
         }
