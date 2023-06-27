@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ConsoleFunctions\ConsoleFunctions.csproj" />
+    <ProjectReference Include="..\ImageWizardCore\ImageWizardCore.csproj" />
+  </ItemGroup>
+
 </Project>
