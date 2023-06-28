@@ -23,7 +23,17 @@ float newWidth;
 
 float newHeight;
 
+bool ShouldHorOffest = false;
+
+bool ShouldVerticalOffset = false;
+
+float HorOffset = 0;
+
+float VertOffset = 0;
+
 ImageWizardCore.ImageWizard imgwiz = new ImageWizardCore.ImageWizard(pathToInput, pathToOutput);
+
+imgwiz.OnImageProcessed += OnImageProcessedFires;
 
 #region Converters
 
@@ -95,8 +105,26 @@ do
                 PrintMessage($"Resize Option was checked!", ConsoleColor.Yellow);
             }
 
+            ShouldHorOffest = ConsoleInput("Would you like to have Horizontal Offset? Y/N", ConsoleColor.Yellow,
+                stringToBool);
+
+            ShouldVerticalOffset = ConsoleInput("Would you like to have Vertical Offset? Y/N", ConsoleColor.Yellow,
+                stringToBool);
+
+            if (ShouldHorOffest)
+            {
+                HorOffset = ConsoleInput("Enter Value for Horizontal offset", ConsoleColor.Yellow,
+                    new StringToFloatConverter());
+            }
+
+            if (ShouldVerticalOffset)
+            {
+                VertOffset = ConsoleInput("Enter Value for Vertical offset", ConsoleColor.Yellow,
+                    new StringToFloatConverter());
+            }
             imgwiz.CreateSpriteShit(imgWidth, imgHeight, CanvasWidth, CanvasHeight, 
-                resize);
+                HorOffset, VertOffset, resize, true);
+
 
             break;
 
@@ -107,6 +135,9 @@ do
 
 } while (!(KeyInput("Press q if you want to quite application, otherwise press any key", ConsoleColor.Red).Key.Equals(ConsoleKey.Q)));
 
-
+void OnImageProcessedFires(int index)
+{
+    PrintMessage($"Image №{index + 1} processed", ConsoleColor.Green);
+}
 
 
